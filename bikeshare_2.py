@@ -134,6 +134,13 @@ def trip_duration_stats(df):
     print("\nThis took %s seconds." % (time.time() - start_time))
     print('-'*40)
 
+def show_data(df):
+    view_data = input('\nWould you like to view 5 rows of individual trip data? Enter yes or no\n')
+    start_loc = 0
+    while view_data == "yes":
+        print(df.iloc[[start_loc,start_loc+5]])
+        start_loc += 5
+        view_data = input("\n would you like to continue? answer yes or no only \n")
 
 def user_stats(df):
     """Displays statistics on bikeshare users."""
@@ -145,15 +152,18 @@ def user_stats(df):
     user_types = df['User Type'].value_counts()
     print('the count of user types :', user_types)
     # Display counts of gender
-    gender = df['Gender'].value_counts()
-    print('the count of genders is: ',gender)
-    # Display earliest, most recent, and most common year of birth
-    earliest = df['Birth Year'].min()
-    most_recent = df['Birth Year'].max()
-    most_common = df['Birth Year'].mode()
-    print("the earliest year of birth is : ", earliest,"\n")
-    print("the most recent year of birth is : ",most_recent,'\n')
-    print("the most common year of birth is : ",most_common,'\n')
+    try:
+        gender = df['Gender'].value_counts()
+        print('the count of genders is: ',gender)
+        # Display earliest, most recent, and most common year of birth
+        earliest = df['Birth Year'].min()
+        most_recent = df['Birth Year'].max()
+        most_common = df['Birth Year'].mode()
+        print("the earliest year of birth is : ", earliest,"\n")
+        print("the most recent year of birth is : ",most_recent,'\n')
+        print("the most common year of birth is : ",most_common,'\n')
+    except:
+        print("there is no gender or date of birth in washington")
 
     print("\nThis took %s seconds." % (time.time() - start_time))
     print('-'*40)
@@ -168,6 +178,7 @@ def main():
         station_stats(df)
         trip_duration_stats(df)
         user_stats(df)
+        show_data(df)
 
         restart = input('\nWould you like to restart? Enter yes or no.\n')
         if restart.lower() != 'yes':
